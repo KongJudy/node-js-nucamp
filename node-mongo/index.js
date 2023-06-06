@@ -1,9 +1,11 @@
+// mongodb driver
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert').strict;
 
 const url = 'mongodb://localhost:27017/';
 const dbname = 'nucampsite';
 
+// connect to the server
 MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
   assert.strictEqual(err, null);
 
@@ -11,12 +13,14 @@ MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
 
   const db = client.db(dbname);
 
+  // deleted campsite collections
   db.dropCollection('campsites', (err, result) => {
     assert.strictEqual(err, null);
     console.log('Dropped Collection', result);
 
     const collection = db.collection('campsites');
 
+    // recreated the campsite collections
     collection.insertOne(
       { name: 'Breadcrumb Trail Campground', description: 'Test' },
       (err, result) => {
